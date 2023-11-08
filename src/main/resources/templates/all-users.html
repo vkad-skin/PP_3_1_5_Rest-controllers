@@ -41,7 +41,7 @@
         </td>
 
         <td>
-            <form action="#" th:method="DELETE" th:action="@{/admin/delete-user}">
+            <form  th:method="delete" th:action="@{/admin/delete-user}">
                 <button type="submit" th:name="userId" th:value="${user.id}">Delete</button>
             </form>
         </td>

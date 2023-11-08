@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class User implements UserDetails {
 
     @Column(name = "password", nullable = false)
     @NotEmpty
-    @Size(min=4)
+    @Size(min = 4)
     private String password;
 
     @Column(name = "age")
@@ -42,12 +43,11 @@ public class User implements UserDetails {
             , CascadeType.REFRESH
             , CascadeType.DETACH}
             , fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_role"
+    @JoinTable(name = "user_role"
             , joinColumns = @JoinColumn(name = "user_id")
             , inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles = new HashSet<>();;
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -57,6 +57,23 @@ public class User implements UserDetails {
         this.password = password;
         this.age = age;
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id
+                && age == user.age
+                && Objects.equals(username, user.username)
+                && Objects.equals(password, user.password)
+                && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, age, email);
     }
 
     @Override
@@ -95,6 +112,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 }
