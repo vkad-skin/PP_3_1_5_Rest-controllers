@@ -6,23 +6,24 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
+import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
-import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userServiceImpl;
 
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserServiceImpl userServiceImpl, RoleRepository roleRepository) {
+    public AdminController(UserServiceImpl userServiceImpl, RoleService roleService) {
         this.userServiceImpl = userServiceImpl;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
     }
 
     @GetMapping()
@@ -34,7 +35,7 @@ public class AdminController {
     @GetMapping("/new-user")
     public String addNewUser(ModelMap model) {
         User user = new User();
-        List<Role> roles = roleRepository.findAll();
+        Set<Role> roles = roleService.findAll();
 
         model.addAttribute("user", user);
         model.addAttribute("roles", roles);
@@ -56,7 +57,7 @@ public class AdminController {
     @GetMapping("/get-user")
     public String getUserById(@RequestParam("userId") int id, ModelMap model) {
         User user = userServiceImpl.getById(id);
-        List<Role> roles = roleRepository.findAll();
+        Set<Role> roles = roleService.findAll();
         model.addAttribute("user", user);
         model.addAttribute("roles", roles);
 
