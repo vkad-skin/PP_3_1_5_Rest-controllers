@@ -89,6 +89,4 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 , user.getPassword()
                 , user.getAuthorities());
     }
-
-
 }
