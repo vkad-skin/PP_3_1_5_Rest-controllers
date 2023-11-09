@@ -42,8 +42,8 @@ public class AdminController {
         return "add-user";
     }
 
-    @PostMapping("/add-or-update-user")
-    public String saveOrUpdateUser(@ModelAttribute User user) {
+    @PostMapping("/add-user")
+    public String saveUser(@ModelAttribute User user) {
         userServiceImpl.saveUser(user);
         return "redirect:/admin";
     }

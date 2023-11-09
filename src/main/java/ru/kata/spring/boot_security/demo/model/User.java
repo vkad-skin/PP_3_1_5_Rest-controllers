@@ -59,6 +59,11 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public void addRole(Role role) {
+        this.roles.add(role);
+        role.getUsers().add(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

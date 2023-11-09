@@ -6,4 +6,8 @@ import java.util.Set;
 
 public interface RoleService {
     Set<Role> findAll();
+
+    void saveRole(Role role);
+
+    Role findByName(String name);
 }
