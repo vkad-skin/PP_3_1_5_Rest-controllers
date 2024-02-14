@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.boot_security.demo.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,11 +55,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     @Transactional
     public void updateUser(User user) {
-        User userFromDb = userRepository.findById(user.getId()).orElseThrow();
+        User userFromDB = userRepository.findById(user.getId()).orElseThrow();
 
-        if (!userFromDb.getPassword().equals(user.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(user.getPassword(), userFromDB.getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        } else {
+            user.setPassword(userFromDB.getPassword());
         }
+
         userRepository.save(user);
 
     }
