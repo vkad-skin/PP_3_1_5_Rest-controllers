@@ -58,7 +58,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         User userFromDB = userRepository.findById(user.getId()).orElseThrow();
 
         if (!bCryptPasswordEncoder.matches(user.getPassword(), userFromDB.getPassword())) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            if (!user.getPassword().equals(userFromDB.getPassword())) {
+                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            }
         } else {
             user.setPassword(userFromDB.getPassword());
         }
