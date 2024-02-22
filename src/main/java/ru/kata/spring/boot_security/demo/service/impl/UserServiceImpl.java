@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByEmail(String username) {
+        return userRepository.findByEmail(username);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        User userFromDb = userRepository.findByUsername(user.getUsername());
+        User userFromDb = userRepository.findByEmail(user.getEmail());
 
         if (userFromDb != null) {
             return;
@@ -85,13 +85,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
+        User user = findByEmail(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found :" + username);
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername()
+        return new org.springframework.security.core.userdetails.User(user.getEmail()
                 , user.getPassword()
                 , user.getAuthorities());
     }

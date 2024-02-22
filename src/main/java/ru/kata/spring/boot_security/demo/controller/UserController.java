@@ -24,7 +24,7 @@ public class UserController {
     public String showUser(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        model.addAttribute("user", userServiceImpl.findByUsername(auth.getName()));
+        model.addAttribute("authorities", userServiceImpl.findByEmail(auth.getName()));
 
         return "user";
     }

@@ -1,16 +1,15 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.impl.UserServiceImpl;
-
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -28,18 +27,11 @@ public class AdminController {
 
     @GetMapping()
     public String showAllUsers(ModelMap model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         model.addAttribute("users", userServiceImpl.getAllUsers());
-        return "all-users";
-    }
-
-    @GetMapping("/new-user")
-    public String addNewUser(ModelMap model) {
-        User user = new User();
-        Set<Role> roles = roleService.findAll();
-
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roles);
-        return "add-user";
+        model.addAttribute("authorities", userServiceImpl.findByEmail(auth.getName()));
+        return "admin";
     }
 
     @PostMapping("/add-user")
@@ -48,25 +40,18 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/update-user")
-    public String updateUser(@ModelAttribute User user) {
+    @PatchMapping("/{id}")
+    public String updateUser(@ModelAttribute("user") User user) {
         userServiceImpl.updateUser(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/get-user")
-    public String getUserById(@RequestParam("userId") int id, ModelMap model) {
-        User user = userServiceImpl.getById(id);
-        Set<Role> roles = roleService.findAll();
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roles);
-
-        return "update-user";
-    }
-
-    @DeleteMapping("/delete-user")
-    public String deleteUser(@RequestParam("userId") int id) {
-        userServiceImpl.deleteUserById(id);
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable("id") int id) {
+        if (!(userServiceImpl.getById(id).getEmail())
+                .equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+            userServiceImpl.deleteUserById(id);
+        }
         return "redirect:/admin";
     }
 }

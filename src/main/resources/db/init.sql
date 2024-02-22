@@ -2,10 +2,11 @@ CREATE SCHEMA IF NOT EXISTS task_3_1_2;
 
 CREATE TABLE IF NOT EXISTS task_3_1_2.users (
     id       int         NOT NULL AUTO_INCREMENT,
-    username varchar(25) NOT NULL,
+    first_name varchar(25) NOT NULL,
+    last_name varchar(25) NOT NULL,
     password varchar(255) NOT NULL,
     age      int         DEFAULT NULL,
-    email    varchar(25) DEFAULT NULL,
+    email    varchar(30) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -27,12 +28,12 @@ INSERT IGNORE INTO task_3_1_2.role (id, name) VALUES (1, 'ROLE_USER');
 INSERT IGNORE INTO task_3_1_2.role (id, name) VALUES (2, 'ROLE_ADMIN');
 
 INSERT IGNORE INTO task_3_1_2.users
-    (id, username, password, age, email) values (1, 'user'
+    (id, first_name, last_name, password, age, email) values (1, 'user', 'user'
                                             , '$2a$12$QuEk.GqqVcWrh8Y6r4b3nuPsK6rQanYkcV.1QY7KUpu0Z/iGpJUPK'
                                             , '20', 'user@gmail.com');
 
 INSERT IGNORE INTO task_3_1_2.users
-    (id, username, password, age, email) values (2 ,'admin'
+    (id, first_name, last_name, password, age, email) values (2 ,'admin', 'admin'
                                              , '$2a$12$4VW4E0WohXfWDO.fZ7bThOnmMDw3dNUFEYX4d556YGmOIem5Bhd3m'
                                              , '25', 'admin@gmail.com');
 

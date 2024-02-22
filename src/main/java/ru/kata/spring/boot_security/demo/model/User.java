@@ -24,9 +24,13 @@ public class User implements UserDetails {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "first_name", nullable = false)
     @NotEmpty
-    private String username;
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    @NotEmpty
+    private String lastName;
 
     @Column(name = "password", nullable = false)
     @NotEmpty
@@ -36,7 +40,9 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
+    @NotEmpty
+    @Size(min = 8)
     private String email;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}
@@ -50,8 +56,9 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, int age, String email) {
-        this.username = username;
+    public User(String firstName, String lastName, String password, int age, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.age = age;
         this.email = email;
@@ -76,7 +83,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -103,16 +110,25 @@ public class User implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         User user = (User) o;
-        return id == user.id
-                && age == user.age
-                && Objects.equals(username, user.username)
-                && Objects.equals(password, user.password)
-                && Objects.equals(email, user.email);
+
+        if (id != user.id) return false;
+        if (age != user.age) return false;
+        if (!Objects.equals(firstName, user.firstName)) return false;
+        if (!Objects.equals(lastName, user.lastName)) return false;
+        if (!Objects.equals(password, user.password)) return false;
+        return Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, age, email);
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + age;
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
     }
 }
