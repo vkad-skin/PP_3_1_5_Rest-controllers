@@ -127,7 +127,7 @@
                                                                     <input type="text"
                                                                            th:value="${user.getAge()}" name="age"
                                                                            class="form-control" id="ageUpdate"
-                                                                           required minlength="2" maxlength="20"/>
+                                                                           required minlength="1" maxlength="3"/>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="emailUpdate"
@@ -135,7 +135,7 @@
                                                                     <input type="text"
                                                                            th:value="${user.getEmail()}" name="email"
                                                                            class="form-control" id="emailUpdate"
-                                                                           required minlength="2" maxlength="20"/>
+                                                                           required minlength="2" maxlength="30"/>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="passwordUpdate"
@@ -144,7 +144,7 @@
                                                                            th:value="${user.getPassword}"
                                                                            name="password"
                                                                            class="form-control" id="passwordUpdate"
-                                                                           required minlength="2" maxlength="20"/>
+                                                                           required minlength="4" maxlength="20"/>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label class="container-fluid "
@@ -155,7 +155,7 @@
                                                                             style="height: 50px; width: 300px; margin: 0 auto">
 
                                                                         <option value="1">ROLE_USER</option>
-                                                                        <option selected="selected" value="2">
+                                                                        <option value="2">
                                                                             ROLE_ADMIN
                                                                         </option>
                                                                     </select>
@@ -275,7 +275,7 @@
                                     <form th:method="POST" th:action="@{/admin/add-user}" th:object="${user}">
                                         <label class="font-weight-bold" for="firstNameNew">Firstname</label>
                                         <br>
-                                        <input class="form-control" type="text" required minlength="2" maxlength="15"
+                                        <input class="form-control" type="text" required minlength="2" maxlength="20"
                                                name="firstName"
                                                id="firstNameNew"
                                                style="height: 30px; width: 300px; margin: 0 auto"
@@ -283,7 +283,7 @@
                                         <br>
                                         <label class="font-weight-bold" for="lastNameNew">Lastname</label>
                                         <br>
-                                        <input class="form-control" type="text" required minlength="2" maxlength="15"
+                                        <input class="form-control" type="text" required minlength="2" maxlength="20"
                                                name="lastName"
                                                id="lastNameNew"
                                                style="height: 30px; width: 300px; margin: 0 auto"
@@ -292,28 +292,28 @@
                                         <label class="font-weight-bold" for="ageNew">Age</label>
                                         <br>
                                         <input class="form-control" type="text" step="1" min="0" required minlength="1"
-                                               maxlength="120" name="age"
+                                               maxlength="3" name="age"
                                                id="ageNew"
                                                style="height: 30px; width: 300px; margin: 0 auto"
                                                placeholder="Age"/>
                                         <br>
                                         <label class="font-weight-bold" for="emailNew">Email</label>
                                         <br>
-                                        <input class="form-control" type="text" step="1" min="0" required minlength="1"
-                                               maxlength="120" name="Email"
+                                        <input class="form-control" type="text" step="1" min="0" required minlength="2"
+                                               maxlength="30" name="Email"
                                                id="emailNew"
                                                style="height: 30px; width: 300px; margin: 0 auto"
-                                               placeholder="email"/>
+                                               placeholder="Email"/>
                                         <br>
                                         <label class="font-weight-bold" for="passwordNew">Password</label>
                                         <br>
-                                        <input class="form-control" type="text" required minlength="4" maxlength="15"
+                                        <input class="form-control" type="text" required minlength="4" maxlength="20"
                                                name="password"
                                                id="passwordNew"
                                                style="height: 30px; width: 300px; margin: 0 auto"
                                                placeholder="Password"/>
                                         <br>
-                                        <label class="font-weight-bold">role</label>
+                                        <label class="font-weight-bold">Role</label>
                                         <select class="form-control form-control-sm" name="roles" multiple
                                                 style="height: 50px; width: 300px; margin: 0 auto">
                                             <option value="1">ROLE_USER</option>

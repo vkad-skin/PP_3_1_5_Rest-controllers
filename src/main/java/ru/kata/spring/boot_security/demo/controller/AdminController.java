@@ -42,6 +42,11 @@ public class AdminController {
 
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
+        User oldUser = userServiceImpl.getById(user.getId());
+
+        if (user.getRoles().isEmpty()) {
+            user.setRoles(oldUser.getRoles());
+        }
         userServiceImpl.updateUser(user);
         return "redirect:/admin";
     }
