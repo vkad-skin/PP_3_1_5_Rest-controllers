@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -21,20 +22,26 @@ public class Role implements GrantedAuthority {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL
+    @ManyToMany(cascade = CascadeType.REFRESH
             , fetch = FetchType.LAZY)
     @JoinTable(name = "user_role"
             , joinColumns = @JoinColumn(name = "role_id")
             , inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
+
+    public Role() {
+
+    }
 
     public Role(String name) {
         this.name = name;
     }
 
-    public Role() {
-
+    public Role(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     @Override
